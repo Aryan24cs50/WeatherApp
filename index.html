@@ -1,223 +1,246 @@
+<!DOCTYPE html>
 <html>
-<head>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-
-<style>
-    body{
-        background-color: lightblue;
-        font-family: 'Poppins', Helvetica, sans-serif;
-        margin-top: 2.5em;
-    }
-    h1{
-        padding: .25em 0em;
-        margin:0px;
-    }
-    nav{
-        width:100%;
-        margin-bottom: 1rem;
-    }
-    input{
-        width:95%;
-        height: 2rem;
-        border: none;
-        border-radius: 10px;
-        font-size: 1.25rem;
-    }
-    .btn{
-        height: 1.5rem;
-        margin-left: -2rem;
-        border: none;
-        border-radius: 10px;
-    }
-    .title{
-        margin-bottom: 0.5em;
-        margin-top: 0px;
-        padding-top: 0px;
-        display: block;
-        width: 100%;
-        text-align: center;
-    }
-
-    .container{
-        padding: 2rem;
-        background: linear-gradient(135deg,#02AABD, #00CDAC);
-        color:#F5F5DC;
-        width: 50%;
-        margin: auto;
-        min-width:250px ;
-        border-radius: 20px;
-    }
-
-    .information{
-        width: 100%;
-        display: flex;
-        justify-content: space-around;
-        margin-top: 2em;
-    }
-    .container-flex{
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-    }
-
-    .description-img{
-        width: 10em;
-        width: 40%;}
-
-    .main{width: 100%;}
-    .info{justify-content: center;
-    }
-    .info-data, .info-name{
-        text-align: center;
-        padding: 0px;
-        margin: 0.5em;
-        font-size: 1.125rem;
-    }
-    #data-humidity{
-        padding-top: 0.6em;
-    }
-
-    .info-img{
-        width : 50%;
-        padding: 0px;
-        margin: 0px;
-    }
-
-    #city-name{text-transform: capitalize;}
-    #data-temp{font-size: 4.5rem;}
-
-    .container-flex1{display: flex;}
-    .left{width: 60%;}
- 
-
-    .new{
-        display: flex;
-        flex-direction: column;
-        width : 40%;
-        justify-content: space-around;
-    }
-    .d1{
-        font-size: 1.25rem;
-    }
-
-    @media only screen and (max-width: 850px) {
-        .container-flex1{flex-direction: column;}
-        .left{width: 100%;}
-        .new{width: 100%;}
-    }
-</style>
-</head>
-<body>
-    <h1 class="title">Weather App</h1>
-<div class="container container-flex1">
-    
-    <div class="left container-flex">
-        <nav>
-            <input type="text" placeholder=" Enter the Name of City" id="city"></input>
-            <button class="btn" type="submit" onclick=weatherinfo()><i class="fa fa-search"></i></button>
-        </nav>
-
-        <div class="main container-flex">
-            <img src="https://github.com/Aryan24cs50/web-dev/blob/main/images1/Clear.png?raw=true" alt="" class="description-img" id="main-img" >
-            <p id="weather-description">description</p>
-            <h1 id="data-temp">&#xb0;C</h1>
-            <h1 id="city-name">Kharagpur</h1>
-        </div>
-    </div>
-
-    <div class="new">
-        <div></div>
-        <div class=" right information ">
-                <div class="info container-flex">
-                    <img class="info-img" src="https://github.com/Aryan24cs50/web-dev/blob/main/images1/Humidity.png?raw=true">
-                    <p class="info-data" id="data-humidity">data</p>
-                    <p class="info-name">Humidity</p> 
-                </div>
-                <div class="info container-flex">
-                    <img class="info-img" src="https://github.com/Aryan24cs50/web-dev/blob/main/images1/Wind.png?raw=true" >
-                    <p class="info-data" id="data-wspeed">data</p>
-                    <p class="info-name">Wind Speed</p> 
-                </div>
-        </div>
-
-        <div class=" right information ">
-            <div class="info container-flex">
-                <p class="info-data d1" id="data-feel">data</p>
-            <p class="info-name">Feels Like</p> 
-            </div>
-            <div class="info container-flex">
-                <p class="info-data d1" id="data-pressure">data</p>
-            <p class="info-name">Pressure</p> 
-            </div>
-        </div>
-        <div></div>
-
-    </div>
-
-</div>
-<script >
-    
-const apikey ='f00c38e0279b7bc85480c3fe775d518c'
-
-const url_weather ='https://api.openweathermap.org/data/2.5/weather'
-const url_coordinates = 'http://api.openweathermap.org/geo/1.0/direct'
-
-let city_name1 = document.getElementById("city").value
-console.log(city_name1);
-let a=0;
-
-function weatherdisplay (data){
-
-    document.getElementById("data-humidity").innerHTML = `${data.main.humidity} %`;
-    document.getElementById("data-wspeed").innerHTML = `${data.wind.speed} m/s`;
-    let temp = Math.round(data.main.temp - 273.15);
-    document.getElementById("data-temp").innerHTML = `${temp}&#xb0;C`;
-    let temp1 = Math.round(data.main.feels_like - 273.15);
-    document.getElementById("data-feel").innerHTML = `${temp1}&#xb0;C`;
-    document.getElementById("data-pressure").innerHTML = `${data.main.pressure} mb`;
-    document.getElementById("weather-description").innerHTML = `${data["weather"]["0"]["description"]}`;
-
-    if(a!=0){
-    document.getElementById("city-name").innerHTML = document.getElementById("city").value;
-    }
-    if(data["weather"]["0"]["icon"]=="50n"){
-        document.getElementById("main-img").src = `https://github.com/Aryan24cs50/web-dev/blob/main/images1/Mist.png?raw=true`  
-    }else{
-        document.getElementById("main-img").src = `https://github.com/Aryan24cs50/web-dev/blob/main/images1/${data["weather"]["0"]["main"]}.png?raw=true`}
-    console.log(data["weather"]["0"]["icon"])
-    a=a+1;
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <style>
+body{
+    font-family: Arial, sans-serif;
+    align-items: center;
+    display: flex;
+    flex-direction:column;
+    justify-content:center;
+    min-height:100vh;
+    background: linear-gradient(135deg, #8052ec, #d161ff);
 }
-async function weatherinfo1(city){   
-    const link_coordinates = `${url_coordinates}?q=${city}&appid=${apikey}`
-    
-    let info1 ,info;
-    let data1 ,data;
-   try{
-        info1 = await fetch (link_coordinates);
-        data1 = await info1.json();
-        const city_lat = data1["0"]["lat"];
-        const city_lon = data1["0"]["lon"];
-            
-        const link_weather = `${url_weather}?lat=${city_lat}&lon=${city_lon}&appid=${apikey}`
-        info = await fetch (link_weather);
-        data = await info.json();
-
-        if(info.ok){
-            weatherdisplay(data);
+        .game{
+            align-items: center;
+            border-color: #8052ec;
         }
-    } catch (error) {
-            console.log('Error fetching weather data:\n', error);
-            alert("city not found\n");
-            }
-     console.log(data);
-}
-function weatherinfo(){
-    let city_name = document.getElementById("city").value
-    weatherinfo1(city_name);
-}
-weatherinfo1("kharagpur");
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(3,minmax(50px, min(15vw,100px)));
+            grid-template-rows: repeat(3,minmax(50px, min(15vw,100px)));
+            grid-column-gap : 10px;
+            grid-row-gap : 10px;
+            align-items: center;
+            margin : 0;
+            border-color: #d161ff; 
+        }
 
-</script>
-</body>
+        .cell {
+            width: 100%;
+            height: 100%;
+            background-color: #fff;
+            border: 2px solid #ccc;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: min(9.5vw,68px);
+            
+            background-color: #060070;
+            cursor: pointer;
+            font-weight : bold;
+            border-radius: 12px;
+
+            color: #fff;
+            text-shadow:
+                0 0 7px #fff
+        }
+        #status {
+                text-align: center;
+                font-size: min(7vw,45px);
+                color: azure;
+                margin-top: -10px;
+        }
+
+        .title{
+            font-size: min(8vw,56px);
+            color: rgb(255, 217, 2);
+            border-color: #060070;
+            border-width: 5px;
+            text-align: center;
+            border-color: aqua;
+        }
+        .grid1{
+            display: grid;
+            grid-template-columns: repeat(3, min(15vw,100px));
+            grid-template-rows: repeat(3, min(6vw,40px));
+            grid-column-gap : 10px;
+            grid-row-gap : 10px;
+            cursor: pointer;
+            font-weight : bold;
+            border-radius: 12px;
+            margin-top: 10px;
+            max-width: 100px;
+            border-color: aquamarine;
+            
+        }
+
+        .grid2{
+            display: grid;
+            grid-template-columns: repeat(2, min(22.5vw,150px));
+            grid-template-rows: repeat(2, min(7.5vw,50px));
+            margin-top: 20px;
+            grid-column-gap : 10px;
+            border-color: beige;
+            
+        }
+        .restart {
+            margin-right: 10px;
+            border-radius: 12px;
+            min-width: 75px;
+            font-size: min(3.5vw,22.75px);
+            border: 2px solid black;
+        }
+        .reset{
+            border-radius: 12px;
+            font-size: min(3.5vw,22.75px); 
+            min-width: 85px;
+           border: 2px solid black;
+        }
+        .a{
+            font-size: min(4vw,26px);
+            border-radius: 12px;
+        }
+        </style>
+    </head>
+    <body>
+        <p class="title"> TIC TAC TOE GAME</p>
+        <div class="game">
+            
+            <p id="status">Player X's Turn</p>
+            <div class="grid">
+                <button onclick="play(0)" class="cell c0" id="0"></button>
+                <button onclick="play(1)" class="cell c1" id="1"></button>
+                <button onclick="play(2)" class="cell c2" id="2"></button>
+                <button onclick="play(3)" class="cell c3" id="3"></button>
+                <button onclick="play(4)" class="cell c4" id="4"></button>
+                <button onclick="play(5)" class="cell c5" id="5"></button>
+                <button onclick="play(6)" class="cell c6" id="6"></button>
+                <button onclick="play(7)" class="cell c7" id="7"></button>
+                <button onclick="play(8)" class="cell c8" id="8"></button>
+            </div>
+            <div class="grid2">
+                <button onclick="restartgame()" class="restart" >Restart</button>
+                <button onclick="reset()" class="reset" >Resetscore</button>
+            </div>
+            <div class="grid1">
+                <button class="x a" ></button>
+                <button class="o a"></button>
+                <button class="tie a" ></button>
+            </div>
+
+        </div>
+        <script>
+    
+            let playermove = "X";
+            let gamestatus = "on";
+            let winner;
+            let n=0;
+            let board=['','','','','','','','',''];
+            const wincomb = [[0, 1, 2],[3, 4, 5],[6, 7, 8],
+                                        [0, 3, 6],[1, 4, 7],[2, 5, 8],
+                                        [0, 4, 8],[2, 4, 6]];
+
+
+            let b = document.querySelector("#status");
+
+            let score= JSON.parse(localStorage.getItem('score')) || { x :0, o:0,tie:0}
+            updatescore();
+
+           function play(index)
+           {
+            let a = document.querySelector(`.c${index}`);
+
+                if(gamestatus=="off" || a.innerHTML !='')
+                    return;
+
+           a.innerHTML=playermove;
+
+           if(playermove== "X")
+           {
+             playermove="O";
+             board[`${index}`]= "1";
+           }
+           else{ 
+            playermove = "X"
+            board[`${index}`]= "2";
+           }
+
+           b.innerHTML= `Player ${playermove}'s Turn `;
+           n++;
+
+           console.log(board , n);
+           checkwin();
+           }
+
+           function checkwin(){
+                for(let i=0; i<8;i++)
+                {
+                    let p1 =wincomb[i][0];
+                    let p2 =wincomb[i][1];
+                    let p3 =wincomb[i][2];
+
+                    console.log(board[p1], board[p2],board[p3]);
+
+                    if(board[p1]==1 && board[p2]==1 && board[p3]==1)
+                {   winner="X";                    
+                    console.log("player X wins");
+                    b.innerHTML=`PLAYER X WINS`;
+                    gamestatus="off";
+                    onwin(p1,p2,p3);
+                    score.x += 1;
+                    n--;
+                
+                }
+                else if(board[p1]==2 && board[p2]==2 && board[p3]==2)
+                {   winner="O";
+                    console.log("player O wins");
+                    b.innerHTML=`PLAYER O WINS`;
+                    gamestatus="off";
+                    onwin(p1,p2,p3);
+                    score.o += 1;    
+                    n--;
+                }
+                }
+                if(n===9)
+                {
+                    b.innerHTML="TIE!";
+                    score.tie += 1;
+                    document.getElementById("status").style= "color: rgb(0, 255, 255)";
+                }
+                
+                localStorage.setItem('score',JSON.stringify(score));
+
+                updatescore();
+           }
+
+            function updatescore(){
+                document.querySelector('.x').innerHTML=`X ${score.x}`
+                document.querySelector('.o').innerHTML=`O ${score.o}`
+                document.querySelector('.tie').innerHTML=`TIE ${score.tie}`
+
+            }
+
+            function onwin(a,b,c)
+            {
+                console.log(document.getElementsByClassName(`c${a}`).className,document.getElementsByClassName(`c${b}`)) 
+                document.getElementById(`${a}`).style= "background-color: rgb(0, 255, 255)";
+                document.getElementById(`${b}`).style= "background-color: rgb(0, 255, 255)";
+                document.getElementById(`${c}`).style= "background-color: rgb(0, 255, 255)";
+                document.getElementById("status").style= "color: rgb(0, 255, 255)";
+            }
+
+            function restartgame(){
+                location.reload();
+            }
+
+            function reset(){
+            score={x :0, o:0,tie:0}
+            localStorage.setItem('score',JSON.stringify(score));
+            updatescore();
+
+            }
+        </script>
+    </body>
 </html>

@@ -1,0 +1,223 @@
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+<style>
+    body{
+        background-color: lightblue;
+        font-family: 'Poppins', Helvetica, sans-serif;
+        margin-top: 2.5em;
+    }
+    h1{
+        padding: .25em 0em;
+        margin:0px;
+    }
+    nav{
+        width:100%;
+        margin-bottom: 1rem;
+    }
+    input{
+        width:95%;
+        height: 2rem;
+        border: none;
+        border-radius: 10px;
+        font-size: 1.25rem;
+    }
+    .btn{
+        height: 1.5rem;
+        margin-left: -2rem;
+        border: none;
+        border-radius: 10px;
+    }
+    .title{
+        margin-bottom: 0.5em;
+        margin-top: 0px;
+        padding-top: 0px;
+        display: block;
+        width: 100%;
+        text-align: center;
+    }
+
+    .container{
+        padding: 2rem;
+        background: linear-gradient(135deg,#02AABD, #00CDAC);
+        color:#F5F5DC;
+        width: 50%;
+        margin: auto;
+        min-width:250px ;
+        border-radius: 20px;
+    }
+
+    .information{
+        width: 100%;
+        display: flex;
+        justify-content: space-around;
+        margin-top: 2em;
+    }
+    .container-flex{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .description-img{
+        width: 10em;
+        width: 40%;}
+
+    .main{width: 100%;}
+    .info{justify-content: center;
+    }
+    .info-data, .info-name{
+        text-align: center;
+        padding: 0px;
+        margin: 0.5em;
+        font-size: 1.125rem;
+    }
+    #data-humidity{
+        padding-top: 0.6em;
+    }
+
+    .info-img{
+        width : 50%;
+        padding: 0px;
+        margin: 0px;
+    }
+
+    #city-name{text-transform: capitalize;}
+    #data-temp{font-size: 4.5rem;}
+
+    .container-flex1{display: flex;}
+    .left{width: 60%;}
+ 
+
+    .new{
+        display: flex;
+        flex-direction: column;
+        width : 40%;
+        justify-content: space-around;
+    }
+    .d1{
+        font-size: 1.25rem;
+    }
+
+    @media only screen and (max-width: 850px) {
+        .container-flex1{flex-direction: column;}
+        .left{width: 100%;}
+        .new{width: 100%;}
+    }
+</style>
+</head>
+<body>
+    <h1 class="title">Weather App</h1>
+<div class="container container-flex1">
+    
+    <div class="left container-flex">
+        <nav>
+            <input type="text" placeholder=" Enter the Name of City" id="city"></input>
+            <button class="btn" type="submit" onclick=weatherinfo()><i class="fa fa-search"></i></button>
+        </nav>
+
+        <div class="main container-flex">
+            <img src="https://github.com/Aryan24cs50/web-dev/blob/main/images1/Clear.png?raw=true" alt="" class="description-img" id="main-img" >
+            <p id="weather-description">description</p>
+            <h1 id="data-temp">&#xb0;C</h1>
+            <h1 id="city-name">Kharagpur</h1>
+        </div>
+    </div>
+
+    <div class="new">
+        <div></div>
+        <div class=" right information ">
+                <div class="info container-flex">
+                    <img class="info-img" src="https://github.com/Aryan24cs50/web-dev/blob/main/images1/Humidity.png?raw=true">
+                    <p class="info-data" id="data-humidity">data</p>
+                    <p class="info-name">Humidity</p> 
+                </div>
+                <div class="info container-flex">
+                    <img class="info-img" src="https://github.com/Aryan24cs50/web-dev/blob/main/images1/Wind.png?raw=true" >
+                    <p class="info-data" id="data-wspeed">data</p>
+                    <p class="info-name">Wind Speed</p> 
+                </div>
+        </div>
+
+        <div class=" right information ">
+            <div class="info container-flex">
+                <p class="info-data d1" id="data-feel">data</p>
+            <p class="info-name">Feels Like</p> 
+            </div>
+            <div class="info container-flex">
+                <p class="info-data d1" id="data-pressure">data</p>
+            <p class="info-name">Pressure</p> 
+            </div>
+        </div>
+        <div></div>
+
+    </div>
+
+</div>
+<script >
+    
+const apikey ='f00c38e0279b7bc85480c3fe775d518c'
+
+const url_weather ='https://api.openweathermap.org/data/2.5/weather'
+const url_coordinates = 'http://api.openweathermap.org/geo/1.0/direct'
+
+let city_name1 = document.getElementById("city").value
+console.log(city_name1);
+let a=0;
+
+function weatherdisplay (data){
+
+    document.getElementById("data-humidity").innerHTML = `${data.main.humidity} %`;
+    document.getElementById("data-wspeed").innerHTML = `${data.wind.speed} m/s`;
+    let temp = Math.round(data.main.temp - 273.15);
+    document.getElementById("data-temp").innerHTML = `${temp}&#xb0;C`;
+    let temp1 = Math.round(data.main.feels_like - 273.15);
+    document.getElementById("data-feel").innerHTML = `${temp1}&#xb0;C`;
+    document.getElementById("data-pressure").innerHTML = `${data.main.pressure} mb`;
+    document.getElementById("weather-description").innerHTML = `${data["weather"]["0"]["description"]}`;
+
+    if(a!=0){
+    document.getElementById("city-name").innerHTML = document.getElementById("city").value;
+    }
+    if(data["weather"]["0"]["icon"]=="50n"){
+        document.getElementById("main-img").src = `https://github.com/Aryan24cs50/web-dev/blob/main/images1/Mist.png?raw=true`  
+    }else{
+        document.getElementById("main-img").src = `https://github.com/Aryan24cs50/web-dev/blob/main/images1/${data["weather"]["0"]["main"]}.png?raw=true`}
+    console.log(data["weather"]["0"]["icon"])
+    a=a+1;
+}
+async function weatherinfo1(city){   
+    const link_coordinates = `${url_coordinates}?q=${city}&appid=${apikey}`
+    
+    let info1 ,info;
+    let data1 ,data;
+   try{
+        info1 = await fetch (link_coordinates);
+        data1 = await info1.json();
+        const city_lat = data1["0"]["lat"];
+        const city_lon = data1["0"]["lon"];
+            
+        const link_weather = `${url_weather}?lat=${city_lat}&lon=${city_lon}&appid=${apikey}`
+        info = await fetch (link_weather);
+        data = await info.json();
+
+        if(info.ok){
+            weatherdisplay(data);
+        }
+    } catch (error) {
+            console.log('Error fetching weather data:\n', error);
+            alert("city not found\n");
+            }
+     console.log(data);
+}
+function weatherinfo(){
+    let city_name = document.getElementById("city").value
+    weatherinfo1(city_name);
+}
+weatherinfo1("kharagpur");
+
+</script>
+</body>
+</html>
